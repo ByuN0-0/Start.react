@@ -7,10 +7,10 @@
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({ text, changeValue }) {
+    function Btn({ text, onClick }) {
       return (
         <button
-          onClick={changeValue}
+          onClick={onClick} // onClick 함수에 매개변수 onClick을 할당하여 changeValue 함수 실행
           style={{
             backgroundColor: "tomato",
             color: "white",
@@ -23,13 +23,14 @@
         </button>
       );
     }
+    const MemorizedBtn = React.memo(Btn); // props가 변경된 자식 객체들만 새로 렌더링
     function App() {
       const [value, setValue] = React.useState("Save Changes");
       const changeValue = () => setValue("Revert Changes");
       return (
         <div>
-          <Btn text={value} changeValue={changeValue} />
-          <Btn text="Continue" />
+          <MemorizedBtn text={value} onClick={changeValue} />
+          <MemorizedBtn text="Continue" />
         </div>
       );
     }
