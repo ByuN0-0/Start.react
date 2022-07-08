@@ -5,32 +5,35 @@
   </body>
   <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({ text, onClick }) {
+    function Btn({ text, fontSize = 12 }) {
+      // 매게변수에 기본값 설정
       return (
         <button
-          onClick={onClick} // onClick 함수에 매개변수 onClick을 할당하여 changeValue 함수 실행
           style={{
             backgroundColor: "tomato",
             color: "white",
             padding: "10px 20px",
             border: 0,
             borderRadius: 10,
+            fontSize,
           }}
         >
           {text}
         </button>
       );
     }
-    const MemorizedBtn = React.memo(Btn); // props가 변경된 자식 객체들만 새로 렌더링
+    Btn.propTypes = {
+      text: PropTypes.string,
+      fontSize: PropTypes.number, //isRequired 함수는 매게변수가 할당되지 않았을때 에러 출력
+    };
     function App() {
-      const [value, setValue] = React.useState("Save Changes");
-      const changeValue = () => setValue("Revert Changes");
       return (
         <div>
-          <MemorizedBtn text={value} onClick={changeValue} />
-          <MemorizedBtn text="Continue" />
+          <Btn text="Save Changes" fontSize={18} />
+          <Btn text="Continue" fontSize={18} />
         </div>
       );
     }
